@@ -14,7 +14,7 @@ double median(vector<double> vec){
     vec_sz size_v = vec.size();
     vec_sz middle = size_v/2;
     if(size_v==0)
-        throw domain_error("median ofr an empty vector");
+        throw domain_error("median of an empty vector");
     sort(vec.begin(),vec.end());
     return size_v % 2 == 1 ?  vec[middle]
                            :  (vec[middle] + vec[middle-1])/2;

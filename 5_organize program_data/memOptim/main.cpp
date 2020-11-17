@@ -15,7 +15,7 @@ using std::endl; using std::string;
 using std::max; using std::vector;
 using std::setw;
 
-int pmain(){
+int pmain1(){
     vector<Student_info> students;
     Student_info record;
     string::size_type  maxlen= 0;

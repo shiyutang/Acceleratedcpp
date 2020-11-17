@@ -7,7 +7,7 @@
 using std::cout;using std::string;
 using std::endl;
 
-int main(){
+int pmain0(){
     double start=1,end=101;
     string endstr = std::to_string(end);
     string::size_type maxlen = endstr.size();
@@ -18,4 +18,5 @@ int main(){
         string spaces(maxlen-name.size(),' ');
         cout << spaces << i << ' '<< res << endl;
     }
+    return 0;
 }
