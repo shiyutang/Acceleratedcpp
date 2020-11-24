@@ -25,6 +25,7 @@ int coutfreq()
         it != counters.end(); ++it)
     {
         cout << it->first << "\t" << it->second << endl;
+        cout << (*it).first << "\t" << it->second << endl;
     }
     return 0;
 }
@@ -32,7 +33,7 @@ int coutfreq()
 // 得到每一行的单词，并记录其出现的位置
 // 分割函数作为参数，给函数的功能增加了很多可能性
 map<string, vector<int> > xref(istream& in,
-                             vector<string> find_words(const string&) = split)
+                               vector<string> find_words(const string&) = split)
 {
     string line;
     int line_num = 0;

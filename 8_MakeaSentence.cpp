@@ -20,7 +20,7 @@ Grammar read_grammar(istream& in)
     string line;
     int line_num = 0;
 
-    while (getline(in,line) && line_num<15)
+    while (getline(in,line) && line_num<14)
     {
         line_num += 1;
         vector<string> entry = split(line);
@@ -61,7 +61,10 @@ void gen_aux(const Grammar& g, const string& word, vector<string>& ret)
     {
         auto it = g.find(word);  //找到 sentence 开头的规则
         if (it == g.end())
+        {
+            cout << "word" << word << endl;
             throw logic_error("empty rule");
+        }
 
         const Rule_collection c = it->second; // 重定向所有规则
 
@@ -79,9 +82,7 @@ vector<string> gen_sen(const Grammar& g)
     return ret;
 }
 
-int main()
-{
-    vector<string> sentence = gen_sen(read_grammar(cin));
+void outputSentence(vector<string> sentence){
     auto it = sentence.begin();
     if (!sentence.empty())
     {
@@ -94,17 +95,24 @@ int main()
         ++it;
     }
     cout << endl;
-    return 0;
 }
 
-
-
+int SENmain()
+{
+    Grammar g = read_grammar(cin);
+    for(int i=0;i!=10;++i)
+    {
+        vector<string> sentence = gen_sen(g);
+        outputSentence(sentence);
+    }
+    return 0;
+}
 
 //<none> cat
 //<none> dog
 //<none> table
 //<np> <none>
-//<np> <adj><np>
+//<np> <adj> <none>
 //<adj> large
 //<adj> brown
 //<adj> absurd
@@ -113,5 +121,5 @@ int main()
 //<pos> on the stairs
 //<pos> under the sky
 //<pos> where it wants
-//<sentence> the <np><verb><pos>
+//<sentence> the <np> <verb> <pos>
 // end-of-file
