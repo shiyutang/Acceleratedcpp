@@ -106,7 +106,7 @@ void split_iter(const string& str, Out os){
 
 #include <iterator>
 
-int main()
+int generics()
 {
     string str;
     vector<string> str_vec;
@@ -128,10 +128,10 @@ int main()
         for (auto  it = str_vec.begin(); it != str_vec.end(); it++)
             cout << (*it) << " " ;
 
-        reverse_diy_noswap(str_vec.begin(), str_vec.end());
-        cout << "after reverse_noswap: ";
-        for (auto  it = str_vec.begin(); it != str_vec.end(); it++)
-            cout << (*it) << " " ;
+//        reverse_diy_noswap(str_vec.begin(), str_vec.end());
+//        cout << "after reverse_noswap: ";
+//        for (auto  it = str_vec.begin(); it != str_vec.end(); it++)
+//            cout << (*it) << " " ;
 
         replace_diy(str_vec.begin(), str_vec.end(), "t", "r");
         cout << endl << "after replace_diy: ";
@@ -144,5 +144,6 @@ int main()
             cout << (*it) << " ";
 
     }
+    return 0;
 }
 //I like playing the piano r t
