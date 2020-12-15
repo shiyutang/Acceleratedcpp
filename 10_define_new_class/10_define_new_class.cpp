@@ -71,7 +71,7 @@ string PF_grade(double grade)
 
 
 
-int main()
+int dnc()
 {
     vector<Student_info_dnc> students;
     Student_info_dnc record;
