@@ -11,6 +11,7 @@
 #include <cstring>
 #include <algorithm>
 #include <list>
+#include "7_Use library/using library.h"
 
 using namespace std;
 typedef double (*analysis_fp)(const  std::vector<double >&);
@@ -34,11 +35,13 @@ string letter_grade(double grade)
     static const double numbers[] =
             {97,94,90,87,84,80,77,74,70,60,0};
 
-    static const char *letters[] =
-            {"A+","A","A-","B+","B","B-","C+","C","C-","D","F"};
+    static const char* letters[] =
+            {"Ap","An","A-","B+","Bn","B-","C+","Cn","C-","Dn","Fn"};
 
-    static const std::size_t ngrades = sizeof(numbers) / sizeof(*numbers);
+//    static const std::size_t ngrades = sizeof(numbers) / sizeof(*numbers);
+    static const std::size_t ngrades = sizeof(letters) / sizeof(*letters);
 
+    cout <<"Letters" << **letters << ngrades << endl;
     for (std::size_t i = 0; i < ngrades; ++i)
     {
         if (grade>=numbers[i])
@@ -47,7 +50,7 @@ string letter_grade(double grade)
     return "?\?\?";
 }
 
-void gradetoletter()
+int testlettergrade()
 {
     random_device rd;
     mt19937 mt(rd());
@@ -59,6 +62,7 @@ void gradetoletter()
         << ", And the letter grade is: "
         << letter_grade(grade) << endl;
     }
+    return 0 ;
 }
 
 int passparamsTomain(int argc, char** argv)  // 指针数组的指针
@@ -123,39 +127,65 @@ int testduplicate()
         cout << *(p+i)<< endl;
     }
     cout << letters << endl;
-}
-
-
-
-template <class T,class M>
-M median(T v)
-{
-    std::size_t size = sizeof(v)/sizeof(*v);
-    if (size == 0)
-        throw domain_error("median of an empty vector");
-
-    sort(v, v+size);
-    std::size_t mid = size / 2;
-
-    return size %2 ==0 ? &((*(v+mid) + *(v+mid+1)) / 2) : v+mid;
-}
-
-int main()
-{
-    int numbers[] =
-            {3,2,4,67,3,1,2,4};
-    int a = median(*numbers);
-    cout << a << endl;
-    for(std::size_t i =0; i < sizeof(numbers)/sizeof((*numbers)); ++i)
-    {
-        cout << *(numbers+i)<< endl;
-    }
-
-    vector<double> nums(numbers, numbers+8);
-    double b = median(&nums);
-    cout << b << endl;
-    std::list<double > student;
-    student.sort();
     return 0;
 }
 
+template <class In, class ret>
+ret median(In begin, In end, ret num)
+{
+    ptrdiff_t size = end-begin;
+    if (size == 0)
+        throw domain_error("median of an empty vector");
+
+    ret* copyobj = new ret;
+    copy(begin, end, copyobj);
+
+    sort(copyobj, copyobj+size);
+    ptrdiff_t mid = size / 2;
+
+    num = size %2 ==0 ? (*(copyobj+mid) + *(copyobj+ mid+1)) / 2 : *(copyobj+mid);
+    delete copyobj;
+
+    return num;
+}
+
+int testmedian()
+{
+    int numbers[] = {3,2,4,67,3,1,2,4};
+    int a = median(numbers, numbers+sizeof(numbers)/sizeof((*numbers)),numbers[0]);
+    cout <<"a: "<<  a << endl;
+    for(std::size_t i =0; i < sizeof(numbers)/sizeof((*numbers)); ++i)
+    {
+        cout << *(numbers+i)<< " ";
+    }
+
+    vector<int> nums(numbers, numbers+8);
+    int b = median(nums.begin(), nums.end(), nums[0]);
+    cout << "b: " << b << endl;
+    for(std::size_t i =0; i < nums.size(); ++i)
+    {
+        cout << *(nums.begin()+i)<< " ";
+    }
+    return 0;
+}
+
+//class Node
+//{
+//    string val = "";
+//    string* next = nullptr;
+//};
+//
+//list<Node> split(string& str){
+//    typedef string::const_iterator iter;
+//    list<Node> ret;
+//
+//    iter i = str.begin();  // 字符串可以有迭代器，但是字符数组不可以
+//    while (i!= str.end()){
+//        i = find_if(i, str.end(),not_space);
+//        iter j = find_if(i, str.end(),space);
+//        if (i!= str.end())
+//            ret.push_back(string(i,j));
+//        i = j;
+//    }
+//    return ret;
+//}
