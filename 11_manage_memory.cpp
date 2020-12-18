@@ -169,23 +169,94 @@ int testmedian()
     return 0;
 }
 
-//class Node
-//{
-//    string val = "";
-//    string* next = nullptr;
-//};
-//
-//list<Node> split(string& str){
-//    typedef string::const_iterator iter;
-//    list<Node> ret;
-//
-//    iter i = str.begin();  // 字符串可以有迭代器，但是字符数组不可以
-//    while (i!= str.end()){
-//        i = find_if(i, str.end(),not_space);
-//        iter j = find_if(i, str.end(),space);
-//        if (i!= str.end())
-//            ret.push_back(string(i,j));
-//        i = j;
-//    }
-//    return ret;
-//}
+template<class T>
+class strLList
+{
+public:
+    typedef T* iterator;
+    typedef const T * const_iterator;
+    typedef size_t size_type;
+
+    iterator begin(){return data;};
+    const_iterator begin() const {return data;};
+    iterator end(){return avail;};
+    const_iterator end() const {return avail;};
+
+    void push_back(T& str)
+    {
+        if (avail == limit)
+            grow();
+        unchecked_append(str);
+    }
+
+private:
+    iterator data;
+    iterator avail;
+    iterator limit;
+    void grow();
+    void unchecked_append(const T &);
+    void uncreate();
+    allocator<string> alloc;
+
+};
+
+template<class T>
+void strLList<T>::grow()
+{
+    size_type new_size = max(2*(limit-data),std::ptrdiff_t(1));
+
+    iterator new_data = alloc.allocate(new_size);
+    iterator new_avail = uninitialized_copy(data,avail,new_data);
+
+    uncreate();
+    data = new_data;
+    avail = new_avail;
+    limit = data+new_size;
+}
+
+template<class T>
+void strLList<T>::unchecked_append(const T & str)
+{
+    alloc.construct(avail++, str);
+}
+
+template<class T>
+void strLList<T>::uncreate()
+{
+    if(data)
+    {
+        iterator it = avail;
+        while (it!=data)
+            alloc.destroy(--it);
+        alloc.deallocate(data,limit-data);
+    }
+    data = limit = avail = 0;
+};
+
+
+strLList<string> split(string& str){
+    typedef string::const_iterator iter;
+    strLList<string> ret;
+
+    iter i = str.begin();
+    while (i!= str.end()){
+        i = find_if(i, str.end(),not_space);
+        iter j = find_if(i, str.end(),space);
+        if (i!= str.end())
+            ret.push_back(string(i,j));
+        i = j;
+    }
+    return ret;
+}
+
+
+int strLListmain()
+{
+    string longstr = "  I am a good student";
+    strLList<string> split_res = split(longstr);
+    for (string* ii = split_res.begin(); ii !=split_res.end(); ++ii )
+    {
+        cout << ii << endl;
+    }
+    return 0;
+}
