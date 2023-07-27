@@ -23,3 +23,8 @@ int helper()
     // 进行 // /*
     // 多行注释 */
 }
+
+void main()
+{
+    helloworld();
+}
